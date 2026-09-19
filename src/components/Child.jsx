@@ -1,17 +1,9 @@
-import React from "react";
+import { useContext } from "react";
+import { UserContext } from "./Parent1"; // Note capitalized import match
 
-function Parent1()
-{
-    const handleData=(data)=>{
-        console.log(data);
-    }
-
-    return <Child sendData={handleData}/>
+function Child() {
+  const name = useContext(UserContext);
+  return <h1>Hello {name}</h1>;
 }
 
-function Child(props)
-{
-    return <button onClick={()=>props.sendData("hello vijay")}>Click</button>
-}
-
-export default Parent1;
+export default Child;
