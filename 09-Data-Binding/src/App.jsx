@@ -1,14 +1,17 @@
-
-import './App.css'
+import FormElem from "./Component/formElem";
 
 function App() {
- 
-
   return (
-    <>
-      <h1 className="bg-amber-400">Welcome to home page!</h1>
-    </>
-  )
+    <div
+      style={{
+        minHeight: "100vh",
+        backgroundColor: "white",
+        color: "black"
+      }}
+    >
+      <FormElem />
+    </div>
+  );
 }
 
-export default App
+export default App;
