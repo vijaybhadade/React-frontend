@@ -1,0 +1,1700 @@
+React:
+------
+React is javascript library for building  user interface. it is allows us to build  application using reuseable componnent and effeciently Upadate UI when data is chaning.it is commonly used for build Single Page Application.
+
+
+Important for mock:
+------------------
+React=javascript library + UI + component + Effecient UI update.
+
+
+
+JSX:
+----
+JSX stands for javascript XML.
+it is a syntax extension used for javascript.
+It is allows write html code inside javascript.
+React uses JSX to describe what the UI should look like.
+
+
+example
+
+const name="vijay"
+
+function app ()
+{
+    return <h1> Hello {name} </h1>
+}
+
+
+Components:
+-----------
+Component is a reusable paise of UI in react.
+A component is useally javascript function that return JSX.
+
+example:
+--------
+
+function welcome()
+{
+    return <h1> Hello vijay </h1>
+}
+
+welcome is custom react component.
+
+Remember:
+--------
+
+
+Component = reusable UI building block.
+
+-----------------------------------------------------
+Props:
+------
+Props are read-only data passing from parent component to child component. it is allow  communicate and make component reusable.
+
+it is passing muitple data from parent component to child component.
+
+example:
+--------
+
+name="Vijay"
+     ↓
+    prop
+     ↓
+ User component
+
+ function User(props) {
+    return <h2>{props.name}</h2>;
+}
+
+
+--------------------------------------------------------
+Props vs State:
+--------------
+first know about state.
+
+state is data belong to component.
+it can be update over  time.
+
+react use  useState() to create state.
+
+const [count,setCount]=useState(0);
+
+count-->current values
+setCount-->function to update it.
+useState(0)---->initalize values or  initial value.
+
+when state change react re-render component and update UI.
+
+
+
+difference between  Props and state:
+-------------------------------------
+      prop                       state
+    -------                     --------
+ read-only                     can be update
+ passind data                  belong to component 
+ User to pass data             User manage data
+ child should not modify data  Component update it own state
+ change come from parent       change happen through state setter
+
+
+----------------------------------------------------------------
+useEffect():
+------------
+useEffect is react hook used for perform side effect in a component after render.
+
+Common use:
+-----------
+fetcching data from api,
+starting timer,
+add in eventListener,
+reading/writing localstorage,
+synchronizing with something outside worlds.
+
+
+syntax:
+-------
+useEffect(()=>{
+    console.log("something")
+});
+
+example: api fetcching
+-----------------------
+useEffect(()=>
+{
+    fetch("/api/user")
+    .then((res)=>{
+        res.json()
+    })
+    .then((datat)=>console.log(data));
+});
+
+
+The dependency array is very important:
+---------------------------------------
+
+useEffect(()=>{
+    //effect    
+},[count]);
+
+[] means the effect runs after the initial render (and in development Strict Mode you may observe an extra setup/cleanup cycle).
+
+🧠 Remember:
+-------------
+
+useState  → manage/change data
+useEffect → perform side effects
+
+-----------------------------------------------------
+state Mutation:
+---------------
+state Mutation is way to update values using setter.
+we do not directly update values in state.
+we are using like setUser ,setCount.
+
+-------------------------------------------------------
+Array state:
+-----------
+In react with the help of array we can be peroform some operations like filter,map and spread operator.
+
+❌ push()
+❌ pop()
+❌ splice()
+
+✅ spread operator
+   [...users, newUser]
+
+✅ filter()
+   users.filter(...)
+
+✅ map()
+   users.map(...)
+
+--------------------------------------------------------------
+
+Controlled Component 🔥:
+--------------------------
+A controlled component is form element whose value controlled by react state.The input value comes from react state and onchange update the state when your type.
+
+🔥 Remember:
+------------
+
+value={name}
+      ↓
+State → Input
+
+onChange
+      ↓
+Input → State
+
+--------------------------------------------------------------
+useEffect + API 🔥🔥:
+----------------------
+
+You have a this react component:-
+
+function Users() {
+    const [users, setUsers] = useState([]);
+
+
+     // Where would you put the API call?
+    useEffect(()=>{
+        fetch("/api/users")
+        .then((res)=>res.json())
+        .then((data)=>console.log(data))
+    },[]);
+}
+
+----------------------------------------------------------
+API + State 🔥🔥:
+------------------
+
+ Suppose the API returns:
+
+ const data=[
+     { "name": "Vijay" },
+  { "name": "Rahul" }
+ ]
+
+ We have:
+ const [users, setUsers] = useState([]);
+
+if we want to featching data. How can you do ?
+
+setUser(data);
+
+--------------------------------------------------
+Condition rendering:
+--------------------
+Conditional rendering means displaying different UI based on a condition.
+
+suppose you have.
+
+const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+You want to show:
+
+"Welcome Vijay" when isLoggedIn is true
+
+"Please Login" when isLoggedIn is false
+
+how can you write code:-
+
+--------------------------------------------------------
+
+Lists & Keys:
+-------------
+lists:
+-----
+it is used for listing user of react.
+
+Keys:
+----
+A key is a unique identifier that helps React efficiently identify list items when the list changes.
+
+
+import React ,{ useEffect, useState }from "react";
+
+
+function Demos()
+{
+     const [isLoggedIn,setIsLoggedIn]=useState(false);
+     const user=["vijay","sidharth","suraj"];
+    return (
+     <div>
+         <ul>
+          {user.map((user)=>
+          <li key={user.id}>{user}</li>)}
+         </ul>
+     </div>
+    )
+}
+
+export default Demos;
+
+--------------------------------------------------------
+Child → Parent Communication:
+----------------------------
+parent-->data passing through props
+child--->pass function through props and then child called the function with data.
+
+
+import React from "react";
+
+function Parent1()
+{
+    const handleData=(data)=>{
+        console.log(data);
+    }
+
+    return <Child sendData={handleData}/>
+}
+
+function Child(props)
+{
+    return <button onClick={()=>props.sendData("hello vijay")}>Click</button>
+}
+
+export default Parent1;
+
+--------------------------------------------------------------
+React Events:
+-------------
+
+onClick:
+--------
+onClick is a React event handler used to execute a function when an element is clicked. onClick={handleClick} passes the function to React, while onClick={handleClick()} executes it immediately during rendering.
+
+Difference between   
+
+onClick={handleClick}    VS     onClick={handleClick()}
+it is passing function          it is execute immediately
+to react.                       during rendering
+
+
+------------------------------------------------------
+Forms & Controlled Components 🔥:
+---------------------------------
+
+You have:
+
+const [email, setEmail] = useState("");
+
+<input
+    type="email"
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+/>
+
+The actual flow:
+----------------
+When the user types:
+
+vijay@gmail.com
+
+the flow is:
+-----------
+User types
+    ↓
+<input>
+    ↓
+onChange event
+    ↓
+e.target.value
+    ↓
+setEmail(...)
+    ↓
+React state: email = "vijay@gmail.com"
+    ↓
+Component re-renders
+    ↓
+value={email}
+    ↓
+<input> displays "vijay@gmail.com"
+
+
+note:
+------
+controlled component is form element whose value is controlled by  react state. the input value comes from state and onchange update the state when user enter data or email.
+
+------------------------------------------------------------
+useRef:
+-------
+useRef is React hook that lets you keep a value between renders without causing a re-render when that value change.
+
+it is commonly used for access Dom element like input,button or div.
+
+1. Why do we need useRef?:
+--------------------------
+suppose you have a input:
+-------------------------
+
+<input/>
+
+Normally, React controls the UI.
+
+But sometimes we want to do something directly to that  html element.
+
+For example:
+-----------
+
+Focus an input automatically
+Select text inside an input
+Access an element's DOM properties
+Store a value that should persist between renders but shouldn't trigger a re-render
+
+That's where useRef is useful.
+
+2. Simple real-life example:
+---------------------------
+Imagine a login page.
+
+Email:    [________________]
+Password: [________________]
+
+          [ Login ]
+
+When the page opens, you want to atomatically cursor inside email box.
+
+you can use useref.
+
+Setp1:-  create a ref
+-----
+
+const inputref= useRef(null);
+
+Think:
+
+inputRef
+   ↓
+"Remember this element for me"
+
+
+step2:- Attach it to the input.
+------
+
+<input ref={inputRef} />
+
+Now React connects:
+
+inputRef  ─────────→  <input>
+
+Step3:-Access Element 
+------
+
+inputRef.current
+
+current is contain actuall dom element. 
+-------
+
+So:
+
+inputRef.current.focus();
+
+menas:
+-----  "Go to the input element store this ref and focus it."
+
+Complete small example:
+----------------------
+
+import React,{useRef} from "react";
+
+function Login ()
+{
+    //create ref
+    const inputRef= useRef(null);
+
+    const handleClick=()=>{
+        inputRef.current.focus();
+    }
+    return(
+        <div>
+            <input ref={inputRef} />
+            <button onClick={handleClick}>Login</button>
+        </div>
+    );
+}
+
+export default Login;
+
+
+flow:
+-----
+Component renders
+       ↓
+<input ref={inputRef}>
+       ↓
+inputRef.current
+       ↓
+stores reference to input
+       ↓
+User clicks "Focus"
+       ↓
+handleFocus()
+       ↓
+inputRef.current.focus()
+       ↓
+Input gets focus
+
+
+What is .current:
+----------------
+this is very important.
+
+When you write:
+
+const inputRef = useRef(null);
+
+meneas 
+
+initial  inputRef.current=null.
+
+After React connects the ref to the input:
+
+<input ref={inputRef} />
+
+---------------------------------------------------------------------------------------------
+5. useState                         vs                                    useRef:
+----------------------                                                  -------------
+stored state                                                        strore amutable reference value 
+Updating state causes re-render                                    Update .current does not causes re-render
+Used for UI data                                                  Used for DOM data and persist values
+Update using setter                                                Update using .current 
+
+Example:
+
+const [count ,setCount]=useState(0)
+
+if:
+
+setCount(1);
+
+React re-render.
+
+But:
+
+const useref=useRef(0);
+
+useref.current=1;
+
+React doesn't re-render just because .current changed.
+--------------------------------------------------------------------
+6. When should you use useRef?
+-------------------------------
+
+Remember these common situations:
+✅ 1. Accessing DOM elements:-
+------------------------------
+
+inputRef.current.focus();
+
+✅ 2. Storing a value between renders:-
+--------------------------------------
+
+For example, previous value:
+
+const previousValue = useRef();
+
+✅ 3. Timer IDs:
+----------------
+const timerRef = useRef();
+
+We can be store setTimeout and setInterval IDS without cause of render.
+
+❌ Don't use it when the value needs to appear/update in the UI:
+----------------------------------------------------------------
+For example:
+
+Counter: 5
+
+If changing the value should update the screen, use:
+useState();
+
+not useRef.
+
+-----------------------------------------------------------------------------------------------
+🧠 Easy rule to remember:
+-------------------------
+
+Ask yourself:
+"When this value changes, should React update the UI?"
+if yes then use useState
+if not then use userRef
+
+                    Value changes
+                         ↓
+              Should UI re-render?
+                    ↙         ↘
+                  YES          NO
+                   ↓            ↓
+               useState      useRef
+
+
+--------------------------------------------------------------------------------------------
+React Router:
+-------------
+Imagine your React application has these pages:
+
+/login
+/register
+/dashboard
+/profile
+
+what is react router,why are use it,when are we using and how can we use?
+
+React Router is a library used for  clinet-side routing in React application.
+It allows us to navigate with different routers/view components using URLs without complete re-loading application.
+
+-----------------------------------------------------------------------------------------------
+
+Q23 — useParams and useNavigate:
+-------------------------------
+useParams():
+-----------
+
+it is used to get user enter id and other information.
+
+example:
+-------
+<Route path="/users/:id" element={<User />} />
+
+/users/25
+
+const { id } = useParams();
+
+console.log(id); // "25"
+
+useNavigate():
+--------------
+it is used to render next router after previous router validate.
+
+example:
+--------
+suppose we want to render dashboard after login router successfully validate.
+
+navigate("/dashboard");
+
+Remember:
+--------
+
+useParams()
+    ↓
+Get value FROM URL
+
+useNavigate()
+    ↓
+Go TO another URL
+
+🎯 Interview shortcut:
+----------------------
+useParams = read URL parameters
+useNavigate = navigate programmatically
+
+
+------------------------------------------------------------------------------------------------
+Q24 — API Loading & Error Handling 🔥:
+--------------------------------------
+Suppose React is fetching users from your Express API.
+
+While the request is running, you want:
+
+loading...
+
+If the API succeeds:
+
+user display 
+
+If the API fails:
+
+Something went wrong
+
+You have:
+
+const [users, setUsers] = useState([]);
+const [loading, setLoading] = useState(false);
+const [error, setError] = useState("");
+
+
+users=[]
+loading=true
+error=" "
+
+if success :-
+
+setUser(data);
+setLoading(false);
+display users
+
+if Filed:
+---------
+setError("something error");
+setLoading(false);
+
+loading = true
+      ↓
+Request is running
+
+loading = false
+      ↓
+Request finished
+(success OR failure)
+
+----------------------------------------------------------------------------------------------
+Q25 — CRUD in React 🔥:
+-----------------------
+Suppose you are building user management system.
+
+You have :
+---------
+
+react 
+express js
+mongodb
+
+The application should allows:
+-----------------------------
+Create-->
+Dispplay--->
+Update--->
+Delete--->
+
+Complete Flow:
+-------------
+Create
+
+Form
+ ↓
+React state
+ ↓
+POST request
+ ↓
+Express
+ ↓
+MongoDB
+ ↓
+Success response
+ ↓
+Update React state / fetch users again
+ ↓
+UI updates
+
+READ:
+----
+
+useEffect()
+ ↓
+GET request
+ ↓
+Express → MongoDB
+ ↓
+data
+ ↓
+setUsers(data)
+ ↓
+Display list
+
+UPDATE:
+------
+Edit button
+ ↓
+PUT request
+ ↓
+Express → MongoDB
+ ↓
+Success
+ ↓
+Update React state
+ ↓
+UI shows updated user
+
+DELETE:
+------
+
+Delete button
+ ↓
+DELETE request
+ ↓
+Express → MongoDB
+ ↓
+Success
+ ↓
+Remove user from React state
+ ↓
+UI updates
+
+
+🎯 Interview answer
+
+React uses POST for creating, GET for reading, PUT/PATCH for updating, and DELETE for deleting. After a successful API response, React updates its state. So, the UI reflects the latest data.
+
+---------------------------------------------------------------------------------------------
+Q26 — useContext 🔥:
+---------------------
+useContext is important concept for react, especially for authentication,language setting,themes and global users.
+
+1. First understand the problem: Prop Drilling:
+-----------------------------------------------
+Imagine your react app:
+
+App
+ ↓
+Dashboard
+ ↓
+Navbar
+ ↓
+Profile
+ ↓
+UserName
+
+Suppose App has:
+
+const username="vijay"
+
+But only UserName needs it.
+
+
+Without Context, you may have to do:
+-----------------------------------
+
+App
+ ↓ userName
+Dashboard
+ ↓ userName
+Navbar
+ ↓ userName
+Profile
+ ↓ userName
+UserName
+
+Even though Dashboard, Navbar, and Profile don't actually need the name.
+
+This is called:
+--------------
+ Props Drilling:- passing props throught multiple components just reach a deeply nested component.
+
+-----------------------------------------------------------------------------------------
+2. What does Context solve?:
+----------------------------
+
+Context allow you make data available to multiple components without manually passing props through every intermididate component.
+
+Think of Context as a shared data channel.
+
+             Context
+                │
+        ┌───────┼────────┐
+        ↓       ↓        ↓
+    Navbar   Profile   Dashboard
+
+Any component inside the Context Provider can access that shared value.
+
+-------------------------------------------------------------------------------------------
+3. What is useContext()?:
+-------------------------
+useContext is React hook.it is used to read/access values from Context.
+
+basic synstax:
+-------------
+
+const value=useContext(UserContext);
+
+But before using it, we need to create a Context.
+
+4. Step 1 — Create Context:
+--------------------------
+import {createContext} from "react";
+
+const UserContext=createContext();
+
+Now we have:
+----------
+UserContext
+     ↓
+shared data channel
+
+-------------------------------------------------------------------------
+5. Step 2 — Create Provider:
+-----------------------------
+A Provider supplied data.
+
+For example:
+------------
+
+<UserContext.Provider value="Vijay">
+    <Dashboard />
+</UserContext.Provider>
+
+Here:
+----
+
+value = "Vijay"
+
+is being provided to components inside Dashboard.
+
+Think:
+-----
+Provider
+   ↓
+"I'm providing this data"
+   ↓
+"Vijay"
+------------------------------------------------------------------------------------
+6. Step 3 — Access the Context:
+------------------------------
+inside child component:-
+
+import {useContext} from "react";
+
+const name=useContext(UserContext);
+
+Now:
+--
+name
+ ↓
+"Vijay"
+
+-----------------------------------------------------------------------------------------
+7. Complete simple example:
+--------------------------
+parent:
+------
+import React, { createContext } from "react";
+import Child from "./Child"; // Fixed: Added missing import
+
+export const UserContext = createContext();
+
+// Fixed: Capitalized component name to match React standards
+function Parent1() {
+  const username = "vijay";
+
+  return (
+    <UserContext.Provider value={username}>
+      <Child />
+    </UserContext.Provider>
+  );
+}
+
+export default Parent1;
+
+Child:
+-----
+
+import { useContext } from "react";
+import { UserContext } from "./Parent1"; // Note capitalized import match
+
+function Child() {
+  const name = useContext(UserContext);
+  return <h1>Hello {name}</h1>;
+}
+
+export default Child;
+
+---------------------------------------------------------------------------------------------
+9. What can we put inside Context?
+----------------------------------
+not only string store in context also store:-
+
+
+String:
+"Vijay"
+
+Object:-
+
+{
+    name: "Vijay",
+    email: "vijay@gmail.com"
+}
+
+multiple values:
+----------------
+{
+    user,
+    login,
+    logout
+}
+
+This is extremly helpfull for authentication.
+
+-----------------------------------------------------------------------------------
+10. Real MERN example — Authentication:
+---------------------------------------
+
+Imagine your React application has:
+
+Login
+Dashboard
+Profile
+Navbar
+Logout
+
+After login, you receive user information.
+
+you can create:
+--------------
+
+AuthContext
+     │
+     ├── Dashboard
+     ├── Navbar
+     ├── Profile
+     └── Logout
+
+Then any of those components can access:
+
+const { user } = useContext(AuthContext);
+
+This is one of the most common practical uses of Context.
+
+------------------------------------------------------------------------------------------
+11. Context vs Props:
+--------------------
+very interview asked this.
+
+Props:
+-----    passing data parent component to child component.
+
+Parent
+   ↓ props
+Child
+
+this is best for when data is needed by directly child component or small component hierarchy.
+
+Context:
+-------- passing data to multiple components with help of provider.
+
+Provider
+   ↓
+Many nested components
+
+Useful when multple components need shared data.
+
+Simple rule:
+-----------
+Props = normal parent → child communication.
+Context = shared data needed by many components at different levels.
+
+-----------------------------------------------------------------------------------------
+12. When should you use Context?:
+---------------------------------
+Common examples:
+
+🔐 Authentication:
+------------------
+currentUser
+login()
+logout()
+
+🌙 Theme:
+---------
+light /dark
+
+🌐 Language:-
+------------
+English
+Marathi
+Hindi
+
+🛒 Shopping cart:
+-----------------
+cartItems
+addToCart()
+removeFromCart()
+
+👤 User preferences:
+--------------------
+username
+profile settings
+
+----------------------------------------------------------------------------------------------
+13. When should you NOT use Context?
+------------------------------------
+
+Don't put everything into Context.
+
+for example:
+-------------
+
+const [input,setInput]=userState("");
+
+If only one component needs that input value, just use useState.
+
+You don't need:
+--------------
+
+Input
+ ↓
+Context
+ ↓
+Input
+
+That would make the application unnecessarily complicated.
+-----------------------------------------------------------------------------------------------
+14. Context doesn't replace all state management:-
+-------------------------------------------------
+This is important.
+
+You might hear:
+--------------
+"Context is a replacement of redux"
+
+That's is not always correct.
+
+Context mainly solves sharing data across components.
+
+For more complex global state, applications may use:
+
+Redux Toolkit
+Zustand
+Jotai
+other state-management libraries
+
+For your current MERN preparation, understand the distinction rather than trying to master all of them now.
+
+---------------------------------------------------------------------------------------------
+15. The complete mental model:
+------------------------------
+Remember this:
+
+             createContext()
+                   ↓
+              UserContext
+                   ↓
+             Provider
+                   ↓
+          value={someData}
+                   ↓
+        ┌──────────┼──────────┐
+        ↓          ↓          ↓
+    Component   Component   Component
+        │          │          │
+        └──── useContext() ───┘
+                   ↓
+             Shared value
+
+
+🎯 Interview answer:
+--------------------
+"What is Context API?"
+
+
+Context API provides a way to share data between components without passing props manually through every level of the component tree. We create a Context, provide a value using a Provider, and access that value using useContext().
+
+================================================================================================
+
+1. What is useReducer()?:
+-------------------------
+
+useReducer:
+-----------
+It is a reactHook.it is used to manage state when state logic become complex.
+
+you thinks it as:
+----------------
+
+useState= simple state manage
+useReducer=stuctured/complex state manage.
+
+
+For example, this is simple:
+const [count, setCount] = useState(0);  
+
+but suppose your component has:
+count 
+increment
+decrement
+reset login
+error
+user data
+and many different action can change state.
+
+instead having setState call, we use userReducer() give you one central-place when state-chainging logic  is defined.
+
+------------------------------------------------------------------------------------
+2)Why do we need useReducer?:-
+-----------------------------
+Imagine bank Transaction.
+
+you want to 3 action with bank balance:
+---------------------------------------
+DEPOSIT-->4000
+WITHDRAW-->1000,
+reset.
+
+Instead of directly changing the balance everywhere, we send an action:
+
+The reducer decides:
+-------------------
+
+If action = DEPOSIT
+    balance = balance + amount
+
+If action = WITHDRAW
+    balance = balance - amount
+
+This is the main idea of useReducer.
+-------------------------------------------------------------------------------------------
+3. The basic structure:-
+-----------------------
+
+There are three things important.
+
+State
+  ↓
+Action
+  ↓
+Reducer
+  ↓
+New State
+
+
+The Syntax:
+-----------
+const [state, dispatch] = useReducer(reducer, initialState);
+
+Here:
+-----
+state:   Current data.
+------
+state.count
+
+dispatch: Used to tell React-"I want to perform this action"
+--------
+
+Example:
+-------
+dispatch({ type: "INCREMENT" });
+
+reducer:
+--------
+It is a function that decides what the new state should be.
+
+function reducer(state, action) {
+    // state changing logic
+}
+
+initialState:
+-------------
+Starting state.
+
+const initialState = {
+    count: 0
+};
+
+---------------------------------------------------------------------------------
+4. Let's build a counter:-
+------------------------
+
+import { useReducer } from "react";
+
+const initialState = {
+    count: 0,
+}
+
+function reducer(state, action) {
+    if (action.type === "INCREMENT") {
+        return {
+            count: state.count + 1,
+        }
+    }
+    if (action.type === "DECREMENT") {
+        return {
+            count: state.count - 1,
+        }
+    }
+    return state;
+
+}
+
+function Counter() {
+    const [state,dispatch]=useReducer(reducer,initialState);
+    return (
+        <div>
+            <h1>{state.count}</h1>
+            <button onClick={()=>dispatch({type:"INCREMENT"})}>(+) count</button> <br />
+            <button onClick={()=>dispatch({type:"DECREMENT"})}>(-) count</button>
+        </div>
+    );
+}
+
+export default Counter;
+
+Flow:-
+----
+User clicks button
+       ↓
+dispatch({ type: "INCREMENT" })
+       ↓
+reducer receives state + action
+       ↓
+reducer calculates new state
+       ↓
+React updates state
+       ↓
+component re-renders
+---------------------------------------------------------------------------------------------
+6. What is action?:-
+------------------
+An action is a Object  describe what we want to do ?
+
+Example:
+-------
+{
+    type: "INCREMENT"
+}
+another:
+-------
+{
+    type: "DECREMENT"
+}
+
+type tell state what action happened.
+
+-----------------------------------------------------------------------------------------------
+7. What if we need to send data?:-
+----------------------------------
+This is very important.
+
+Suppose we want to add 5 data instead of 1.
+
+then 
+
+dispatch({
+    type:"DECREMENT"
+    amount:5
+});
+
+Then reducer:
+
+function reducer(state, action) {
+
+    if (action.type === "INCREMENT") {
+        return {
+            count: state.count + action.amount
+        };
+    }
+
+    return state;
+}
+
+Flow:
+----
+dispatch()
+   ↓
+action
+{
+   type: "INCREMENT",
+   amount: 5
+}
+   ↓
+reducer
+   ↓
+state.count + 5
+
+-----------------------------------------------------------------------------------
+8. useState vs useReducer
+------------------------
+This is an important interview question.
+
+| useState                  | useReducer                    |
+| ------------------------- | ----------------------------- |
+| Simple state              | Complex state logic           |
+| Direct setter             | dispatch action               |
+| `setCount(10)`            | `dispatch({type: "..."})`     |
+| Logic can be spread       | Logic centralized in reducer  |
+| Easy for small components | Useful for complex components |
+
+
+----------------------------------------------------------------------------------------
+9. Important rule about reducer:
+-------------------------------
+A reducer must be pure.
+
+Meaning:
+
+It should calculate the new state from:
+current state + action
+
+It shouldn't directly perform things like:
+-----------------------------------------
+API calls
+DOM manipulation
+random side effects
+
+For example:
+------------
+
+function reducer(state, action) {
+    return {
+        count: state.count + 1
+    };
+}
+
+GOOD.
+--------------------------------------------------------------------------------------------
+10. Real-world example:
+----------------------
+Imagine a login form.
+
+State:
+------
+
+{
+    user: null,
+    loading: false,
+    error: null
+}
+
+Actions:
+--------
+LOGIN_START
+LOGIN_SUCCESS
+LOGIN_ERROR
+LOGOUT
+
+The reducer handles all these state transitions.
+
+LOGIN_START
+     ↓
+loading = true
+
+LOGIN_SUCCESS
+     ↓
+user = logged-in user
+loading = false
+
+LOGIN_ERROR
+     ↓
+error = message
+loading = false
+
+LOGOUT
+     ↓
+user = null
+
+This is where useReducer() becomes very useful.
+
+"What is useReducer?"
+-------------------
+
+useReducer is reactHook used for manage state when state become complex logic. it is work with reducer function and dispatch action. The reducer recieved current state and an action and return new state.
+
+Remember:
+--------
+useReducer
+    ↓
+state + dispatch
+    ↓
+dispatch(action)
+    ↓
+reducer(state, action)
+    ↓
+new state
+    ↓
+re-render
+
+One simple difference to remember:
+----------------------------------
+useState:
+setCount(10)
+
+useReducer:
+dispatch({ type: "SET_COUNT", value: 10 })
+
+
+=====================================================================================================================================================
+                                                 *********************************Day3*****************
+
+1)Custom hook:
+-------------
+Custom hook is javascript function that lets you reuse React  logic between components.
+
+for example two component both need same operation that times:
+-------------------------------------------------------------
+
+fetch users
+manage Loading 
+manage error
+store API data.
+
+
+example:
+--------
+
+function useUsers()
+{
+    //react logic for users and loading 
+}
+
+
+then both component can be use:
+------------------------------
+import {users,loading} =useUsers();
+
+
+*****Important rule******:
+-------------------------
+A custom hook name start with   (use):
+                               -------
+
+Examples:
+--------
+
+useUsers()
+useAuth()
+useError()
+useFetch()
+useLocalStorage()
+
+we use custom hook for:
+----------------------
+
+Code reusability
+Avoid duplicate code
+Separation of logic from UI
+Easier maintenance
+Cleaner components
+
+Simple Flow:
+-----------
+
+Component A ──┐
+              ├──> useUsers() ──> shared logic
+Component B ──┘
+
+
+The custom hook shares logic ,not necessarily the same state.Each components calling hook as Normally gets it own state.
+
+
+The interviwes answer:
+---------------------
+A custom hook is javascript function that uses react hook for share stateful logic  between components.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+React Performance:
+-----------------
+
+We are learning three things:
+-----------------------------
+React.memo
+useMemo
+useCallback()
+
+These are common asked in react interview.
+
+First,the besic problem:
+-----------------------
+Suppose parent component re-render 
+
+Parent
+  ↓
+Child
+
+When parent component re-render then child component also re-render even if child's props haven't changed.
+
+React.memo can help prevent unnecessarily child re-render.
+----------
+example:
+--------
+
+const Child=React.memo(function Child({name})) {
+    <h1>{name}</h1>
+};
+
+Now React skip rendering  Child when it's props haven't changed.
+
+Remember this first:
+------------------- 
+
+React.memo → prevents unnecessary COMPONENT re-render
+useMemo    → remembers a calculated VALUE
+useCallback → remembers a FUNCTION
+
+That's the key distinction.
+
+Quick interview version:
+------------------------
+React.memo
+→ prevents unnecessary child component re-render
+→ when props haven't changed
+
+useMemo
+→ remembers/memoizes a calculated value
+
+useCallback
+→ remembers/memoizes a function
+
+===========================================================================================
+React + Express + MongoDB 🔥:
+------------------------------
+Register page flow:
+------------------
+if email and password new:
+-------------------------
+
+Register button
+      ↓
+React
+      ↓
+Express API
+      ↓
+Register router
+      ↓
+Validate email
+      ↓
+Check existing user
+      ↓
+Validate password
+      ↓
+bcrypt.hash()
+      ↓
+Create user
+      ↓
+MongoDB
+      ↓
+Response
+      ↓
+React receives response
+      ↓
+Show success / navigate to Login
+
+if email already exists:
+------------------------
+Email already exists
+       ↓
+Express sends error response
+       ↓
+React receives response
+       ↓
+setError(...)
+       ↓
+React re-renders
+       ↓
+Show "Email already exists"
+
+===========================================================================================
+Q31 — Authentication: JWT + Cookies 🔐:
+---------------------------------------
+
+You've already worked with JWT and cookies in your Node/Express project, so let's test whether you understand the complete authentication flow.
+
+Suppose Vijay logs in:
+----------------------
+POST /auth/login
+email
+password
+
+The server varifies the user and password.
+Now explain:
+-----------
+1.When is JWT created?:
+-----------------------
+Login request
+   ↓
+Find user by email
+   ↓
+Compare password with bcrypt.compare()
+   ↓
+Password correct?
+   ↓
+jwt.sign(...)
+   ↓
+JWT created
+
+2.Where is the JWT stored/sent?:
+-------------------------------
+
+A common secure approach is an HttpOnly cookie:
+
+Server
+  ↓
+Set-Cookie
+  ↓
+Browser stores JWT
+
+The browser can then automatically send the cookie with appropriate requests.
+
+Another approach is sending the JWT in the Authorization header:
+Authorization: Bearer <token>
+
+3. What happens when Vijay requests /dashboard?:
+------------------------------------------------
+Vijay
+ ↓
+GET /dashboard
+ ↓
+JWT sent with request
+ ↓
+Authentication middleware
+ ↓
+jwt.verify(token, secret)
+ ↓
+Valid?
+ ↓
+Yes → continue to dashboard
+No → 401 Unauthorized
+---------------------------------------------------------------------------
+Important interview distinction 🧠:
+-----------------------------------
+
+Registration
+    ↓
+bcrypt.hash(password)
+    ↓
+Store hash in DB
+
+
+Login
+    ↓
+bcrypt.compare(password, hash)
+    ↓
+Correct?
+    ↓
+jwt.sign(...)
+    ↓
+Access token
+
+========================================================================================
+
+
