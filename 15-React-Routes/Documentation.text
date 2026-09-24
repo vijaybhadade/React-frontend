@@ -1,0 +1,46 @@
+in React does not router build-in if we want to use it then install libraby for use it.
+
+React Router DOM:
+-----------------
+
+Install:
+-------    terminal -->npm install react-router-dom 
+
+It is provides multiple types routes:
+-------------------------------------
+
+1)Browser router:-
+-----------------
+this is basic and normal router in react.
+A declarative <Router> using Browser History API for client-side routing.
+
+example:
+-------
+codeWithVijay.com=/
+codeWithVijay.com/home=/home
+codeWithVijay.com/content=/content
+
+2)HashRouter:
+------------
+It is basically use /#.
+
+A declarative <Router> that store in location in the _hash_ portion of URL.So, it is not send to server.
+
+example:
+-------
+codeWithVijay=/#
+codeWithVijay/home=/#/home
+codeWithVijay/about=/#/about
+
+
+3)MemoryRouter:
+--------------
+A declarative <Router> that store entries in memory.
+
+
+4)StaticRouter:
+--------------
+A <Router> that may not navigate with anyother location.This is useful  on the server where there is not statefull UI.
+
+Uses: next.js, remix and many more use it
+----
