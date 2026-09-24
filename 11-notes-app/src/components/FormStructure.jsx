@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {SavePlus} from "lucide-react";
+import {SavePlus,Type,TextAlignStart} from "lucide-react";
 function FormStructure({onAdded}) {
     const [Title, setTitle] = useState("");
     const [Content, setContent] = useState("");
@@ -25,12 +25,13 @@ function FormStructure({onAdded}) {
             <label htmlFor="title" className=" ml-4 mt-4  font-bold">
                 Title:
             </label>
-
-            <input
+            <Type />
+            <input 
                 type="text"
                 id="title"
-                value={Title}
+                value={  Title}
                 onChange={(e) => setTitle(e.target.value)}
+                
                 placeholder="Enter title"
                 className="border-2 border-blue-300 bg-white rounded-sm mr-4 ml-4 px-3 py-2 w-[111] items-center"
                required/>
@@ -38,7 +39,7 @@ function FormStructure({onAdded}) {
             <label htmlFor="content" className=" ml-4 mt-4  font-bold">
                 Content:
             </label>
-
+              <TextAlignStart />
             <textarea
                 name="content"
                 id="content"
