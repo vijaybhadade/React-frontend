@@ -1,0 +1,1189 @@
+What Redux Toolkit:
+---------------
+Redux Toolkit is a separate state-management library for handling more complex application state.
+
+Typical Flow:
+------------
+Component
+   ↓ dispatch(action)
+Redux Store
+   ↓
+Reducer
+   ↓
+State updated
+   ↓
+Components re-render
+
+Example:
+--------
+dispatch(addToCart(product));
+
+
+# 📘 Redux Toolkit (RTK) — Handwritten Notes
+
+## 1. What is Redux?
+
+**Redux** is a state management library.
+
+It is used when **many components need to access or modify the same state**.
+
+### Example
+
+Imagine an e-commerce website:
+
+```text
+Navbar
+   ↓
+Cart count
+
+Product Page
+   ↓
+Add product to cart
+
+Cart Page
+   ↓
+Remove product / change quantity
+```
+
+All these components need the same **cart state**.
+
+Instead of passing props:
+
+```text
+Parent
+ ↓
+Child
+ ↓
+Grandchild
+ ↓
+Component
+```
+
+Redux provides a **central store**:
+
+```text
+             Redux Store
+           /      |       \
+      Navbar   Product    Cart
+```
+
+---
+
+# 2. What is Redux Toolkit?
+
+**Redux Toolkit (RTK)** is the **official recommended way to write Redux code**.
+
+Old Redux required a lot of boilerplate:
+
+```text
+Action
+Action Type
+Reducer
+Store
+Dispatch
+...
+```
+
+Redux Toolkit makes this much simpler.
+
+### Remember
+
+```text
+Redux
+  ↓
+State management concept/library
+
+Redux Toolkit
+  ↓
+Modern + easier way to use Redux
+```
+
+---
+
+# 3. Why do we need Redux?
+
+React already has:
+
+```js
+useState()
+useReducer()
+useContext()
+```
+
+So why Redux?
+
+When an application becomes large, many components may need the same state.
+
+Example:
+
+```text
+                    User
+                     ↓
+             Redux Store
+              /    |    \
+           Navbar Home Profile
+              \    |    /
+               Dashboard
+```
+
+Every component can access the required state without passing props through many levels.
+
+---
+
+# 4. Important Redux Terms
+
+You should understand these terms:
+
+```text
+Store
+Slice
+State
+Action
+Reducer
+Dispatch
+Selector
+```
+
+Easy relationship:
+
+```text
+Component
+    ↓
+ dispatch(action)
+    ↓
+  Reducer
+    ↓
+ New State
+    ↓
+ Redux Store
+    ↓
+ Component re-renders
+```
+
+---
+
+# 5. Redux Store
+
+The **store** contains the application's Redux state.
+
+Example:
+
+```js
+{
+    user: {
+        name: "Vijay",
+        isLoggedIn: true
+    },
+
+    cart: {
+        items: [],
+        total: 0
+    }
+}
+```
+
+Think:
+
+> **Store = central storage of Redux state**
+
+---
+
+# 6. Slice
+
+A **slice** represents one part of the application state.
+
+For example:
+
+```text
+Redux Store
+│
+├── userSlice
+├── cartSlice
+├── productSlice
+└── authSlice
+```
+
+Example:
+
+```js
+const counterSlice = createSlice({
+    name: "counter",
+
+    initialState: {
+        count: 0
+    },
+
+    reducers: {
+        increment: (state) => {
+            state.count += 1;
+        }
+    }
+});
+```
+
+A slice normally contains:
+
+```text
+name
+initialState
+reducers
+```
+
+---
+
+# 7. createSlice()
+
+`createSlice()` is one of the most important Redux Toolkit functions.
+
+Syntax:
+
+```js
+const slice = createSlice({
+    name: "counter",
+
+    initialState: {},
+
+    reducers: {
+        // functions
+    }
+});
+```
+
+Example:
+
+```js
+const counterSlice = createSlice({
+    name: "counter",
+
+    initialState: {
+        count: 0
+    },
+
+    reducers: {
+
+        increment: (state) => {
+            state.count += 1;
+        },
+
+        decrement: (state) => {
+            state.count -= 1;
+        }
+    }
+});
+```
+
+---
+
+# 8. Reducer
+
+A **reducer** describes how the state should change.
+
+Example:
+
+```js
+increment: (state) => {
+    state.count += 1;
+}
+```
+
+Means:
+
+```text
+Current count = 5
+
+increment()
+
+        ↓
+
+count = 6
+```
+
+Another:
+
+```js
+decrement: (state) => {
+    state.count -= 1;
+}
+```
+
+---
+
+# 9. Action
+
+An **action** tells Redux:
+
+> "I want this state change to happen."
+
+Example:
+
+```js
+counterSlice.actions.increment()
+```
+
+This creates an action.
+
+You normally don't manually call the reducer.
+
+Instead:
+
+```text
+Component
+   ↓
+dispatch(increment())
+   ↓
+Reducer
+   ↓
+State changes
+```
+
+---
+
+# 10. Dispatch
+
+`dispatch()` sends an action to Redux.
+
+Import:
+
+```js
+import { useDispatch } from "react-redux";
+```
+
+Then:
+
+```js
+const dispatch = useDispatch();
+```
+
+Use:
+
+```js
+dispatch(increment());
+```
+
+Think:
+
+> **dispatch = send an instruction to Redux**
+
+---
+
+# 11. Selector
+
+A selector is used to **read data from Redux Store**.
+
+Import:
+
+```js
+import { useSelector } from "react-redux";
+```
+
+Example:
+
+```js
+const count = useSelector(
+    (state) => state.counter.count
+);
+```
+
+Think:
+
+```text
+useSelector()
+      ↓
+Read data
+      ↓
+Redux Store
+```
+
+---
+
+# 12. dispatch vs useSelector
+
+Very important:
+
+### `useSelector`
+
+👉 **Read state**
+
+```js
+const count = useSelector(
+    (state) => state.counter.count
+);
+```
+
+### `useDispatch`
+
+👉 **Change state**
+
+```js
+const dispatch = useDispatch();
+
+dispatch(increment());
+```
+
+Remember:
+
+```text
+useSelector → READ
+
+dispatch → CHANGE
+```
+
+---
+
+# 13. Provider
+
+React components need access to the Redux Store.
+
+We use:
+
+```jsx
+<Provider store={store}>
+    <App />
+</Provider>
+```
+
+Import:
+
+```js
+import { Provider } from "react-redux";
+```
+
+Usually in:
+
+```text
+main.jsx
+```
+
+Example:
+
+```jsx
+<Provider store={store}>
+    <App />
+</Provider>
+```
+
+Think:
+
+```text
+Provider
+   ↓
+Makes Redux Store available
+   ↓
+All child components
+```
+
+---
+
+# 14. Basic Redux Toolkit Structure
+
+A common project structure:
+
+```text
+src/
+│
+├── app/
+│   └── store.js
+│
+├── features/
+│   └── counter/
+│       └── counterSlice.js
+│
+├── App.jsx
+└── main.jsx
+```
+
+---
+
+# 15. Create Store
+
+`store.js`
+
+```js
+import { configureStore } from "@reduxjs/toolkit";
+
+import counterReducer
+    from "../features/counter/counterSlice";
+
+export const store = configureStore({
+
+    reducer: {
+        counter: counterReducer
+    }
+
+});
+```
+
+Important:
+
+```js
+reducer: {
+    counter: counterReducer
+}
+```
+
+means the state will look like:
+
+```js
+state.counter
+```
+
+---
+
+# 16. Create Slice
+
+`counterSlice.js`
+
+```js
+import { createSlice } from "@reduxjs/toolkit";
+
+const counterSlice = createSlice({
+
+    name: "counter",
+
+    initialState: {
+        count: 0
+    },
+
+    reducers: {
+
+        increment: (state) => {
+            state.count += 1;
+        },
+
+        decrement: (state) => {
+            state.count -= 1;
+        }
+
+    }
+
+});
+
+export const {
+    increment,
+    decrement
+} = counterSlice.actions;
+
+export default counterSlice.reducer;
+```
+
+---
+
+# 17. Connect Redux to React
+
+`main.jsx`
+
+```jsx
+import { Provider } from "react-redux";
+
+import { store } from "./app/store";
+
+<Provider store={store}>
+    <App />
+</Provider>
+```
+
+Now the entire React application can access Redux.
+
+---
+
+# 18. Reading Redux State
+
+Component:
+
+```jsx
+import { useSelector } from "react-redux";
+
+function Counter() {
+
+    const count = useSelector(
+        (state) => state.counter.count
+    );
+
+    return (
+        <h1>{count}</h1>
+    );
+}
+```
+
+Flow:
+
+```text
+Redux Store
+    ↓
+useSelector()
+    ↓
+count
+    ↓
+UI
+```
+
+---
+
+# 19. Updating Redux State
+
+```jsx
+import { useDispatch } from "react-redux";
+
+import {
+    increment,
+    decrement
+} from "./counterSlice";
+
+function Counter() {
+
+    const dispatch = useDispatch();
+
+    return (
+        <>
+            <button
+                onClick={() => dispatch(increment())}
+            >
+                +
+            </button>
+
+            <button
+                onClick={() => dispatch(decrement())}
+            >
+                -
+            </button>
+        </>
+    );
+}
+```
+
+Flow:
+
+```text
+Button click
+     ↓
+dispatch(increment())
+     ↓
+increment reducer
+     ↓
+count changes
+     ↓
+Component re-renders
+```
+
+---
+
+# 20. Payload
+
+Sometimes we don't just want:
+
+```text
+increment by 1
+```
+
+We want:
+
+```text
+increment by 5
+```
+
+We can send data using a **payload**.
+
+Example:
+
+```js
+incrementBy: (state, action) => {
+
+    state.count += action.payload;
+
+}
+```
+
+Dispatch:
+
+```js
+dispatch(incrementBy(5));
+```
+
+Now:
+
+```text
+action.payload = 5
+```
+
+So:
+
+```text
+count = 10
+
+dispatch(incrementBy(5))
+
+        ↓
+
+count = 15
+```
+
+---
+
+# 21. action.payload
+
+Very important:
+
+```js
+action.payload
+```
+
+contains the data sent with the action.
+
+Example:
+
+```js
+dispatch(addUser({
+    name: "Vijay",
+    age: 21
+}));
+```
+
+Reducer:
+
+```js
+addUser: (state, action) => {
+
+    state.user = action.payload;
+
+}
+```
+
+Therefore:
+
+```js
+action.payload
+```
+
+is:
+
+```js
+{
+    name: "Vijay",
+    age: 21
+}
+```
+
+---
+
+# 22. Why can Redux Toolkit "mutate" state?
+
+You may see:
+
+```js
+state.count += 1;
+```
+
+Normally Redux state should be immutable.
+
+But Redux Toolkit uses **Immer** internally.
+
+Therefore RTK lets us write:
+
+```js
+state.count += 1;
+```
+
+while internally producing a new immutable state.
+
+### Remember
+
+```text
+You write → mutation-style code
+
+Immer internally → immutable update
+```
+
+---
+
+# 23. Redux vs useContext
+
+### useContext
+
+Used mainly for sharing values:
+
+```text
+Theme
+User
+Language
+Settings
+```
+
+### Redux Toolkit
+
+Better suited for complex shared state:
+
+```text
+Cart
+Products
+Authentication
+Orders
+Notifications
+Large application state
+```
+
+Simple rule:
+
+```text
+Small shared data
+       ↓
+useContext
+
+Complex global state
+       ↓
+Redux Toolkit
+```
+
+---
+
+# 24. Redux Data Flow
+
+This is one of the most important diagrams to remember:
+
+```text
+             USER
+              ↓
+         UI / Component
+              ↓
+       dispatch(action)
+              ↓
+            Action
+              ↓
+           Reducer
+              ↓
+       Redux Store
+              ↓
+        State Updated
+              ↓
+          Component
+              ↓
+             UI
+```
+
+Redux is **one-way data flow**.
+
+---
+
+# 25. Multiple Slices
+
+Real applications usually have multiple slices.
+
+Example:
+
+```text
+Redux Store
+│
+├── auth
+│
+├── user
+│
+├── products
+│
+├── cart
+│
+└── orders
+```
+
+Example store:
+
+```js
+configureStore({
+
+    reducer: {
+
+        auth: authReducer,
+
+        user: userReducer,
+
+        products: productReducer,
+
+        cart: cartReducer
+
+    }
+
+});
+```
+
+---
+
+# 26. Redux in a MERN Application
+
+For a MERN Job Portal:
+
+```text
+                 Redux Store
+                      │
+       ┌──────────────┼──────────────┐
+       ↓              ↓              ↓
+    authSlice      jobSlice       userSlice
+       ↓              ↓              ↓
+  Login/Register   Jobs CRUD     Profile
+       ↓              ↓              ↓
+                  React UI
+```
+
+For example:
+
+```text
+Login
+  ↓
+API request
+  ↓
+Login successful
+  ↓
+Store user/token information
+  ↓
+Navbar updates
+  ↓
+Profile updates
+  ↓
+Protected pages know user is logged in
+```
+
+---
+
+# 27. Redux Toolkit + API
+
+Redux Toolkit can also manage API-related state.
+
+Typical state:
+
+```js
+{
+    data: [],
+    loading: false,
+    error: null
+}
+```
+
+Flow:
+
+```text
+Component
+   ↓
+dispatch(fetchJobs())
+   ↓
+API request
+   ↓
+loading = true
+   ↓
+API response
+   ↓
+data = jobs
+loading = false
+```
+
+For async Redux logic, you'll commonly learn:
+
+```text
+createAsyncThunk
+```
+
+---
+
+# 28. createAsyncThunk
+
+Used for asynchronous operations such as:
+
+```text
+GET API
+POST API
+PUT API
+DELETE API
+```
+
+Example concept:
+
+```js
+const fetchUsers = createAsyncThunk(
+    "users/fetchUsers",
+    async () => {
+
+        const response =
+            await axios.get("/api/users");
+
+        return response.data;
+
+    }
+);
+```
+
+Then the slice can handle:
+
+```text
+pending
+fulfilled
+rejected
+```
+
+Think:
+
+```text
+API Request
+    ↓
+pending
+    ↓
+ ┌───────────────┐
+ ↓               ↓
+success         error
+ ↓               ↓
+fulfilled       rejected
+```
+
+---
+
+# 29. Redux Toolkit vs useState
+
+### useState
+
+Best for **local component state**.
+
+Example:
+
+```js
+const [isOpen, setIsOpen] = useState(false);
+```
+
+Only one/few components need it.
+
+### Redux Toolkit
+
+Best when many parts of the application need the state.
+
+Example:
+
+```text
+Cart
+ ↓
+Navbar
+Product
+Cart page
+Checkout
+```
+
+All need the same cart data.
+
+---
+
+# 30. Redux Toolkit vs useReducer
+
+`useReducer`:
+
+```text
+Component-level state management
+```
+
+Redux Toolkit:
+
+```text
+Application-level state management
+```
+
+Conceptually they are similar because both use:
+
+```text
+state
++
+action
++
+reducer
+```
+
+But Redux provides a centralized store and ecosystem around it.
+
+---
+
+# 🧠 Quick Revision
+
+```text
+Redux
+→ State management library
+
+Redux Toolkit
+→ Recommended modern Redux approach
+
+Store
+→ Central Redux state
+
+Slice
+→ One feature's state + reducers
+
+Reducer
+→ Changes state
+
+Action
+→ Describes what happened
+
+Dispatch
+→ Sends action
+
+useSelector
+→ Reads state
+
+Provider
+→ Gives React access to Redux store
+
+Payload
+→ Data sent with an action
+
+createAsyncThunk
+→ Handles async logic/API requests
+```
+
+## ⭐ Most Important Flow
+
+```text
+                COMPONENT
+                    │
+                    │ dispatch()
+                    ↓
+                  ACTION
+                    │
+                    ↓
+                 REDUCER
+                    │
+                    ↓
+                STORE/STATE
+                    │
+                    │ useSelector()
+                    ↓
+                COMPONENT
+                    │
+                    ↓
+                    UI
+```
+
+## 🎯 Learning Order
+
+Learn Redux Toolkit in this order:
+
+```text
+1. Why Redux?
+       ↓
+2. Store
+       ↓
+3. createSlice
+       ↓
+4. Reducer
+       ↓
+5. Action
+       ↓
+6. dispatch()
+       ↓
+7. useSelector()
+       ↓
+8. Payload
+       ↓
+9. Multiple slices
+       ↓
+10. createAsyncThunk
+       ↓
+11. API + Redux
+       ↓
+12. Authentication with Redux
+```
+
+**Don't try to memorize the code first.** Understand the flow:
+
+> **Component → dispatch → action → reducer → store → selector → component**
+
+Once that flow is clear, Redux Toolkit becomes much easier.
